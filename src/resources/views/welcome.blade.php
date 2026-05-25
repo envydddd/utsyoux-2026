@@ -712,8 +712,59 @@ footer span { color: var(--accent); }
 <section id="skills-section"><div class="section-header reveal"><div class="section-eyebrow">{{ $profile->skills_eyebrow }}</div><h2 class="section-title-big">{!! str_replace('&', '<span>&</span>', e($profile->skills_title)) !!}</h2><div class="underline-bar"></div></div><div class="skills-grid reveal reveal-delay-1">@forelse($skills as $skill)<div class="skill-card"><div class="skill-card-border"></div><div class="skill-icon-wrap" style="color:{{ $skill->color ?: '#7effd4' }}"><span style="font-size:1.25rem;font-weight:700">{{ $skill->icon ?: '•' }}</span></div><div class="skill-name">{{ $skill->name }}</div><div class="skill-sub">{{ $skill->subtitle }}</div></div>@empty<p style="color:var(--muted)">Belum ada skill. Tambahkan dari Admin Panel.</p>@endforelse</div></section>
 
 <!-- ════════════ PROYEK ════════════ -->
-<section id="proyek"><div class="projects-wrapper"><div class="section-header reveal" style="text-align:center"><h2 class="section-title-big">{!! preg_replace('/\s+(\S+)$/', ' <span>$1</span>', e($profile->projects_title)) !!}</h2><p style="color:var(--muted);margin-top:.6rem;font-size:.9rem">{{ $profile->projects_subtitle }}</p></div><div class="projects-masonry">@forelse($projects as $project)<div class="proj-card {{ $project->is_featured ? 'large' : '' }} reveal"><div class="proj-img" style="background:{{ $project->background_gradient ?: 'linear-gradient(135deg,#1a1a2e,#16213e)' }}; {{ $project->is_featured ? '' : 'height:180px;font-size:3rem' }}">@if($project->image)<img src="{{ asset('storage/'.$project->image) }}" alt="{{ $project->title }}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">@else{{ $project->icon ?: '🧩' }}@endif<div class="proj-img-overlay"></div></div><div class="proj-body"><div class="proj-tags">@foreach(($project->tags ?? []) as $tag)<span class="proj-tag">{{ $tag }}</span>@endforeach</div><div class="proj-title">{{ $project->title }}</div><div class="proj-desc">{{ $project->description }}</div><a href="{{ $project->url ?: '#' }}" class="proj-link">Lihat Detail →</a></div></div>@empty<p style="color:var(--muted)">Belum ada proyek. Tambahkan dari Admin Panel.</p>@endforelse</div></div></section>
+<section id="proyek">
+    <div class="projects-wrapper">
+        <div class="section-header reveal" style="text-align:center">
+            <h2 class="section-title-big">
+                {!! preg_replace('/\s+(\S+)$/', ' <span>$1</span>', e($profile->projects_title)) !!}
+            </h2>
+            <p style="color:var(--muted);margin-top:.6rem;font-size:.9rem">
+                {{ $profile->projects_subtitle }}
+            </p>
+        </div>
 
+        <div class="projects-masonry">
+            @forelse($projects as $project)
+                @php
+                    $tags = is_array($project->tags)
+                        ? $project->tags
+                        : array_filter(array_map('trim', explode(',', $project->tags ?? '')));
+                @endphp
+
+                <div class="proj-card {{ $project->is_featured ? 'large' : '' }} reveal">
+                    <div class="proj-img" style="background:{{ $project->background_gradient ?: 'linear-gradient(135deg,#1a1a2e,#16213e)' }}; {{ $project->is_featured ? '' : 'height:180px;font-size:3rem' }}">
+                        @if($project->image)
+                            <img src="{{ asset('storage/'.$project->image) }}" alt="{{ $project->title }}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">
+                        @else
+                            {{ $project->icon ?: '🧩' }}
+                        @endif
+
+                        <div class="proj-img-overlay"></div>
+                    </div>
+
+                    <div class="proj-body">
+                        <div class="proj-tags">
+                            @foreach($tags as $tag)
+                                <span class="proj-tag">{{ $tag }}</span>
+                            @endforeach
+                        </div>
+
+                        <div class="proj-title">{{ $project->title }}</div>
+                        <div class="proj-desc">{{ $project->description }}</div>
+
+                        <a href="{{ $project->url ?: '#' }}" class="proj-link">
+                            Lihat Detail →
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <p style="color:var(--muted)">
+                    Belum ada proyek. Tambahkan dari Admin Panel.
+                </p>
+            @endforelse
+        </div>
+    </div>
+</section>
 <!-- ════════════ KONTAK ════════════ -->
 <section id="kontak">
   <div class="contact-wrapper">

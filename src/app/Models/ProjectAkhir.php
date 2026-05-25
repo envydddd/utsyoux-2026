@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class ProjectAkhir extends Model
-{
+class ProjectAkhir extends Model{
     protected $fillable = [
         'title',
         'description',

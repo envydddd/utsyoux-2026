@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class ProjectAkhirResource extends Resource
 {
@@ -26,6 +27,32 @@ class ProjectAkhirResource extends Resource
     protected static ?string $pluralModelLabel = 'Proyek Portfolio';
 
     protected static ?int $navigationSort = 3;
+
+
+    public static function canViewAny(): bool
+    {
+        return auth()->check();
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->check();
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->check();
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->check();
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return auth()->check();
+    }
 
     public static function form(Form $form): Form
     {
@@ -116,8 +143,8 @@ class ProjectAkhirResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tags')
                     ->label('Tags')
-                    ->badge()
-                    ->separator(','),
+                    ->formatStateUsing(fn ($state): string => is_array($state) ? implode(', ', $state) : (string) $state)
+                    ->badge(),
                 Tables\Columns\IconColumn::make('is_featured')
                     ->label('Featured')
                     ->boolean(),

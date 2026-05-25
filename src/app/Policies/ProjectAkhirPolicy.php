@@ -15,7 +15,7 @@ class ProjectAkhirPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_project::akhir');
+        return $user->hasRole('super_admin') || $user->can('view_any_project::akhir');
     }
 
     /**
@@ -23,7 +23,7 @@ class ProjectAkhirPolicy
      */
     public function view(User $user, ProjectAkhir $projectAkhir): bool
     {
-        return $user->can('view_project::akhir');
+        return $user->hasRole('super_admin') || $user->can('view_project::akhir');
     }
 
     /**
@@ -31,7 +31,7 @@ class ProjectAkhirPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_project::akhir');
+        return $user->hasRole('super_admin') || $user->can('create_project::akhir');
     }
 
     /**
@@ -39,7 +39,7 @@ class ProjectAkhirPolicy
      */
     public function update(User $user, ProjectAkhir $projectAkhir): bool
     {
-        return $user->can('update_project::akhir');
+        return $user->hasRole('super_admin') || $user->can('update_project::akhir');
     }
 
     /**
@@ -47,7 +47,7 @@ class ProjectAkhirPolicy
      */
     public function delete(User $user, ProjectAkhir $projectAkhir): bool
     {
-        return $user->can('delete_project::akhir');
+        return $user->hasRole('super_admin') || $user->can('delete_project::akhir');
     }
 
     /**
@@ -55,7 +55,7 @@ class ProjectAkhirPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_project::akhir');
+        return $user->hasRole('super_admin') || $user->can('delete_any_project::akhir');
     }
 
     /**
@@ -63,7 +63,7 @@ class ProjectAkhirPolicy
      */
     public function forceDelete(User $user, ProjectAkhir $projectAkhir): bool
     {
-        return $user->can('{{ ForceDelete }}');
+        return $user->hasRole('super_admin');
     }
 
     /**
@@ -71,7 +71,7 @@ class ProjectAkhirPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('{{ ForceDeleteAny }}');
+        return $user->hasRole('super_admin');
     }
 
     /**
@@ -79,7 +79,7 @@ class ProjectAkhirPolicy
      */
     public function restore(User $user, ProjectAkhir $projectAkhir): bool
     {
-        return $user->can('{{ Restore }}');
+        return $user->hasRole('super_admin');
     }
 
     /**
@@ -87,7 +87,7 @@ class ProjectAkhirPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('{{ RestoreAny }}');
+        return $user->hasRole('super_admin');
     }
 
     /**
@@ -95,7 +95,7 @@ class ProjectAkhirPolicy
      */
     public function replicate(User $user, ProjectAkhir $projectAkhir): bool
     {
-        return $user->can('{{ Replicate }}');
+        return $user->hasRole('super_admin');
     }
 
     /**
@@ -103,6 +103,6 @@ class ProjectAkhirPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('{{ Reorder }}');
+        return $user->hasRole('super_admin');
     }
 }
