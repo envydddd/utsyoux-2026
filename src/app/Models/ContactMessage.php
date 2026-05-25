@@ -18,5 +18,7 @@ class ContactMessage extends Model
         'read_at',
     ];
 
-    protected $dates = ['read_at'];
+    protected $casts = [
+        'read_at' => 'datetime',
+    ];
 }
