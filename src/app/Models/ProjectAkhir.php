@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class ProjectAkhir extends Model{
+class ProjectAkhir extends Model
+{
     protected $fillable = [
         'title',
         'description',
@@ -32,6 +33,18 @@ class ProjectAkhir extends Model{
         'is_published' => true,
         'sort_order' => 0,
     ];
+
+    /**
+     * Keep tags safe even if Filament/browser sends a comma separated string.
+     */
+    public function setTagsAttribute(mixed $value): void
+    {
+        if (is_string($value)) {
+            $value = array_values(array_filter(array_map('trim', explode(',', $value))));
+        }
+
+        $this->attributes['tags'] = json_encode($value ?: []);
+    }
 
     public function scopePublished(Builder $query): Builder
     {
